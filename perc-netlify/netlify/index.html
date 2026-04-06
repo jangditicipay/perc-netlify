@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visa PERC — March 2026 Intelligence Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ━━━ TOKENS ━━━ */
+:root {
+  --bg:#07111F; --sur:#0C1A2E; --s2:#102238; --s3:#14293F;
+  --br:#1C3452; --blt:#264969;
+  --gold:#F5A623; --blue:#3B82F6; --purple:#8B5CF6; --teal:#06B6D4;
+  --red:#F43F5E; --orange:#F97316; --green:#22C55E; --yellow:#EAB308;
+  --text:#ECF3FF; --tmid:#8AAFC8; --tmut:#506E85;
+  --sh:0 2px 16px rgba(0,0,0,.3); --r:12px; --r-sm:8px;
+}
+[data-theme="light"] {
+  --bg:#EEF2F9; --sur:#FFF; --s2:#F2F6FC; --s3:#E6EDF8;
+  --br:#C5D4E8; --blt:#9EBAD8;
+  --text:#0A1930; --tmid:#2C4A68; --tmut:#5E7A96;
+  --sh:0 2px 12px rgba(0,0,0,.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:calc(var(--zoom,1)*15px);-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;transition:background .2s,color .2s;}
+button{font-family:'Outfit',sans-serif;cursor:pointer;border:none;background:none;}
+input,select,textarea{font-family:'Outfit',sans-serif;}
+/* tooltip */
+#tt{position:fixed;z-index:9999;background:#112036;border:1px solid var(--blt);border-left:3px solid var(--gold);color:#ECF3FF;font-size:.78rem;line-height:1.55;padding:9px 13px;border-radius:var(--r-sm);width:230px;max-width:80vw;box-shadow:0 8px 28px rgba(0,0,0,.5);pointer-events:none;opacity:0;transition:opacity .15s;}
+#tt.on{opacity:1;}
+#tt-name{color:var(--gold);font-weight:700;font-size:.65rem;text-transform:uppercase;letter-spacing:.7px;display:block;margin-bottom:3px;}
+.term{border-bottom:1.5px dotted var(--gold);cursor:help;font-weight:600;}
+/* header */
+header{background:var(--sur);border-bottom:1px solid var(--br);padding:clamp(16px,3.5vw,28px) clamp(16px,5vw,44px);position:relative;overflow:hidden;transition:background .2s;}
+header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 10% 70%,rgba(245,166,35,.04) 0%,transparent 50%),radial-gradient(ellipse at 90% 30%,rgba(59,130,246,.03) 0%,transparent 50%);pointer-events:none;}
+.hrow{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+.hbrow{font-size:.68rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;display:flex;align-items:center;gap:7px;}
+.hbrow::before{content:'';width:18px;height:2px;background:var(--gold);display:inline-block;}
+.htitle{font-size:clamp(1.5rem,4.5vw,2.5rem);font-weight:900;letter-spacing:-1px;line-height:1.1;}
+.htitle span{color:var(--gold);}
+.hsub{margin-top:7px;font-size:clamp(.72rem,1.8vw,.82rem);color:var(--tmut);}
+.hbadge{background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.28);color:var(--gold);font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 11px;border-radius:4px;font-family:'JetBrains Mono',monospace;white-space:nowrap;align-self:flex-start;}
+/* stats */
+.stats{background:var(--sur);border-bottom:1px solid var(--br);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;transition:background .2s;}
+.stats::-webkit-scrollbar{display:none;}
+.stat{flex:1;min-width:90px;padding:11px 16px;text-align:center;border-right:1px solid var(--br);flex-shrink:0;}
+.stat:last-child{border-right:none;}
+.sn{font-size:clamp(1.1rem,3vw,1.35rem);font-weight:800;color:var(--gold);line-height:1;letter-spacing:-.5px;}
+.sl{font-size:.6rem;color:var(--tmut);text-transform:uppercase;letter-spacing:.8px;margin-top:3px;font-weight:500;}
+/* sticky search+filter */
+.sticky-bar{position:sticky;top:0;z-index:100;background:var(--sur);border-bottom:1px solid var(--br);transition:background .2s;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.search-row{padding:9px clamp(16px,5vw,44px);border-bottom:1px solid var(--br);}
+.search-wrap{display:flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--blt);border-radius:var(--r-sm);padding:0 12px;transition:border-color .15s;}
+.search-wrap:focus-within{border-color:var(--gold);}
+.s-icon{color:var(--tmut);font-size:.9rem;flex-shrink:0;}
+.s-input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:.85rem;padding:9px 0;}
+.s-input::placeholder{color:var(--tmut);}
+.s-clear{color:var(--tmut);font-size:.8rem;padding:4px;border-radius:4px;transition:color .12s;}
+.s-clear:hover{color:var(--text);}
+.filter-row{padding:8px clamp(16px,5vw,44px);display:flex;align-items:center;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.fp{padding:5px 13px;border-radius:99px;border:1px solid var(--br);font-size:.72rem;font-weight:600;color:var(--tmut);background:var(--s2);transition:all .15s;white-space:nowrap;flex-shrink:0;min-height:30px;}
+.fp:hover{border-color:var(--gold);color:var(--gold);}
+.fp.on{background:var(--gold);border-color:var(--gold);color:#07111F;}
+.fp.fp-al.on{background:var(--purple);border-color:var(--purple);color:#fff;}
+.fp.fp-ga.on{background:var(--teal);border-color:var(--teal);color:#07111F;}
+.fp.fp-sc.on{background:var(--red);border-color:var(--red);color:#fff;}
+.fp.fp-cy.on{background:var(--blue);border-color:var(--blue);color:#fff;}
+.fp.fp-ph.on{background:var(--orange);border-color:var(--orange);color:#fff;}
+.fp.fp-la.on{background:var(--green);border-color:var(--green);color:#07111F;}
+.fp.fp-global.on{background:var(--tmut);border-color:var(--tmut);color:#fff;}
+.fp.fp-apac.on,.fp.fp-dynamic.on{background:var(--teal);border-color:var(--teal);color:#07111F;}
+.fp.fp-eu.on{background:var(--blue);border-color:var(--blue);color:#fff;}
+.fp.fp-us.on{background:var(--green);border-color:var(--green);color:#07111F;}
+.fp.fp-africa.on{background:var(--orange);border-color:var(--orange);color:#fff;}
+.fsep{width:1px;height:18px;background:var(--br);flex-shrink:0;margin:0 2px;}
+/* main */
+main{padding:clamp(16px,3vw,32px) clamp(16px,5vw,44px);max-width:1360px;margin:0 auto;}
+/* toolbar */
+.toolbar{display:flex;align-items:center;gap:6px;padding:10px 0 14px;flex-wrap:wrap;}
+.tb-lbl{font-size:.6rem;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:1.5px;}
+.tg{display:flex;align-items:center;gap:5px;}
+.tbtn{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--r-sm);border:1px solid var(--blt);background:var(--s2);color:var(--tmid);font-size:.75rem;font-weight:600;transition:all .15s;white-space:nowrap;}
+.tbtn:hover{border-color:var(--gold);color:var(--gold);}
+.tbtn.on{background:rgba(245,166,35,.12);border-color:var(--gold);color:var(--gold);}
+#zv{font-size:.72rem;font-family:'JetBrains Mono',monospace;color:var(--gold);min-width:34px;text-align:center;font-weight:700;}
+.tb-sep{width:1px;height:20px;background:var(--br);margin:0 2px;}
+/* legend */
+.legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:0 0 16px;border-bottom:1px solid var(--br);}
+.li{display:flex;align-items:center;gap:4px;font-size:.7rem;color:var(--tmut);white-space:nowrap;}
+.ld{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.l-hint{margin-left:auto;font-size:.68rem;color:var(--tmut);display:flex;align-items:center;gap:4px;}
+.gu{border-bottom:1.5px dotted var(--gold);color:var(--gold);font-weight:600;}
+/* section header */
+.sh{display:flex;align-items:center;gap:9px;margin:28px 0 14px;flex-wrap:wrap;}
+.sh:first-of-type{margin-top:18px;}
+.sl-al{width:3px;height:18px;border-radius:2px;flex-shrink:0;background:var(--purple);}
+.sl-ga{width:3px;height:18px;border-radius:2px;flex-shrink:0;background:var(--teal);}
+.sl-dy{width:3px;height:18px;border-radius:2px;flex-shrink:0;background:var(--gold);}
+.sh h2{font-size:clamp(.88rem,2.2vw,1rem);font-weight:800;color:var(--text);letter-spacing:-.2px;}
+.sp-al{font-size:.6rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:rgba(139,92,246,.13);color:var(--purple);border:1px solid rgba(139,92,246,.25);}
+.sp-ga{font-size:.6rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:rgba(6,182,212,.11);color:var(--teal);border:1px solid rgba(6,182,212,.25);}
+.sp-dy{font-size:.6rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:rgba(245,166,35,.11);color:var(--gold);border:1px solid rgba(245,166,35,.25);}
+.sh-cnt{margin-left:auto;font-size:.68rem;font-weight:600;color:var(--tmut);font-family:'JetBrains Mono',monospace;}
+.sh-sort{padding:4px 10px;border-radius:6px;border:1px solid var(--br);background:var(--s2);color:var(--tmut);font-size:.68rem;font-weight:600;transition:all .15s;}
+.sh-sort:hover{border-color:var(--gold);color:var(--gold);}
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:clamp(10px,1.8vw,16px);}
+/* card */
+.card{background:var(--sur);border:1px solid var(--br);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s,background .2s;}
+.card:hover{border-color:var(--blt);box-shadow:var(--sh);}
+.ca-al{border-left:3px solid var(--purple);}
+.ca-ga{border-left:3px solid var(--teal);}
+.ca-dy{border-left:3px solid var(--gold);}   /* dynamically added */
+.ctop{padding:clamp(13px,2.5vw,20px) clamp(13px,2.5vw,20px) 10px;}
+.cmeta{display:flex;justify-content:space-between;align-items:center;gap:7px;margin-bottom:9px;}
+.cchip{font-size:.6rem;font-weight:700;letter-spacing:.7px;text-transform:uppercase;padding:3px 8px;border-radius:4px;flex-shrink:0;}
+.cc-al{background:rgba(139,92,246,.13);color:#b79eff;}
+.cc-sig{background:rgba(245,166,35,.11);color:var(--gold);}
+.cc-cy{background:rgba(59,130,246,.11);color:#7db9ff;}
+.cc-sc{background:rgba(244,63,94,.11);color:#ff8fa3;}
+.cc-ph{background:rgba(249,115,22,.11);color:#ffaa6e;}
+.cc-la{background:rgba(34,197,94,.11);color:#5ee890;}
+.cc-dy{background:rgba(245,166,35,.11);color:var(--gold);}
+.rbadge{font-size:.6rem;font-weight:700;font-family:'JetBrains Mono',monospace;padding:2px 7px;border-radius:4px;flex-shrink:0;letter-spacing:.3px;}
+.rb-cr{background:rgba(244,63,94,.13);color:#f87171;border:1px solid rgba(244,63,94,.25);}
+.rb-hi{background:rgba(249,115,22,.13);color:#fb923c;border:1px solid rgba(249,115,22,.25);}
+.rb-md{background:rgba(234,179,8,.11);color:#facc15;border:1px solid rgba(234,179,8,.25);}
+.rb-lo{background:rgba(34,197,94,.11);color:#4ade80;border:1px solid rgba(34,197,94,.25);}
+.ctitle{font-size:clamp(.85rem,2vw,.97rem);font-weight:700;line-height:1.4;color:var(--text);margin-bottom:7px;}
+.csum{font-size:clamp(.78rem,1.7vw,.85rem);color:var(--tmid);line-height:1.78;margin-bottom:10px;}
+.clabels{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
+.cl{display:flex;align-items:baseline;gap:7px;font-size:.78rem;line-height:1.45;}
+.ck{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:2px 6px;border-radius:3px;white-space:nowrap;flex-shrink:0;line-height:1.5;}
+.cv{color:var(--tmid);}
+.cl-med .ck{background:rgba(59,130,246,.13);color:#7db9ff;}
+.cl-atk .ck{background:rgba(139,92,246,.13);color:#b79eff;}
+.cl-iss .ck{background:rgba(249,115,22,.13);color:#ffaa6e;}
+.cl-cus .ck{background:rgba(244,63,94,.13);color:#ff8fa3;}
+.cregions{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:9px;}
+.reg{font-size:.63rem;font-weight:600;padding:2px 7px;border-radius:99px;}
+.r-global{background:rgba(107,114,128,.12);color:#9ca3af;border:1px solid rgba(107,114,128,.2);}
+.r-apac{background:rgba(6,182,212,.1);color:#22d3ee;border:1px solid rgba(6,182,212,.2);}
+.r-eu{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2);}
+.r-us{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.2);}
+.r-africa{background:rgba(249,115,22,.1);color:#fb923c;border:1px solid rgba(249,115,22,.2);}
+.cdate{font-size:.6rem;font-family:'JetBrains Mono',monospace;color:var(--tmut);}
+.ctags{padding:7px clamp(13px,2.5vw,20px);display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--br);}
+.ctag{font-size:.6rem;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--s2);color:var(--tmut);border:1px solid var(--br);}
+.xbtn{width:100%;padding:10px clamp(13px,2.5vw,20px);display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--br);background:var(--s2);color:var(--tmut);font-size:.78rem;font-weight:600;transition:all .15s;gap:8px;}
+.xbtn:hover{background:var(--s3);color:var(--text);}
+.xarrow{width:22px;height:22px;border-radius:50%;border:1px solid var(--blt);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--gold);transition:transform .22s,background .15s;flex-shrink:0;}
+.card.on .xbtn .xarrow{transform:rotate(180deg);background:rgba(245,166,35,.1);}
+.card.on .xbtn{color:var(--text);}
+.cdet{display:none;padding:clamp(13px,2.5vw,20px);border-top:1px solid var(--br);background:var(--s2);animation:sd .18s ease;}
+@keyframes sd{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.card.on .cdet{display:block;}
+.db{margin-bottom:16px;}.db:last-child{margin-bottom:0;}
+.dlbl{font-size:.62rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--tmut);margin-bottom:8px;display:flex;align-items:center;gap:7px;}
+.dlbl::after{content:'';flex:1;height:1px;background:var(--br);}
+.dtxt{font-size:clamp(.78rem,1.7vw,.85rem);color:var(--tmid);line-height:1.8;}
+.dtxt strong{color:var(--text);font-weight:600;}
+.alist{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.alist li{font-size:clamp(.76rem,1.6vw,.83rem);color:var(--tmid);padding:9px 11px 9px 30px;position:relative;background:var(--s3);border-radius:var(--r-sm);line-height:1.65;border:1px solid var(--br);}
+.alist li::before{content:'→';position:absolute;left:10px;top:9px;color:var(--gold);font-weight:700;font-size:.82rem;}
+.alist li strong{color:var(--text);}
+/* flow */
+.flow{position:relative;display:flex;flex-direction:column;}
+.flow::before{content:'';position:absolute;left:20px;top:22px;bottom:22px;width:2px;background:linear-gradient(to bottom,var(--blt),var(--br));z-index:0;}
+.fs{display:flex;align-items:flex-start;gap:12px;padding:8px 0;position:relative;z-index:1;}
+.fs-ic{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:2px solid var(--br);background:var(--sur);position:relative;z-index:2;}
+.fs.bl .fs-ic{border-color:var(--blue);background:rgba(59,130,246,.09);}
+.fs.am .fs-ic{border-color:var(--yellow);background:rgba(234,179,8,.09);}
+.fs.rd .fs-ic{border-color:var(--red);background:rgba(244,63,94,.09);}
+.fs.gn .fs-ic{border-color:var(--green);background:rgba(34,197,94,.09);}
+.fs.pu .fs-ic{border-color:var(--purple);background:rgba(139,92,246,.09);}
+.fs-body{flex:1;padding:4px 0;}
+.fs-lbl{font-size:.62rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:2px;}
+.fs.bl .fs-lbl{color:#7db9ff;}.fs.am .fs-lbl{color:#facc15;}.fs.rd .fs-lbl{color:#f87171;}.fs.gn .fs-lbl{color:#4ade80;}.fs.pu .fs-lbl{color:#b79eff;}
+.fs-txt{font-size:clamp(.74rem,1.6vw,.8rem);color:var(--tmid);line-height:1.65;}
+/* IOC */
+.ioc{background:#050E1A;border:1px solid var(--br);border-left:3px solid var(--red);border-radius:var(--r-sm);padding:12px 14px;font-family:'JetBrains Mono',monospace;overflow-x:auto;margin-top:2px;}
+.ioc-l{font-size:.58rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--tmut);margin-bottom:3px;margin-top:8px;}
+.ioc-l:first-child{margin-top:0;}
+.ioc-v{font-size:.68rem;color:#4ade80;word-break:break-all;line-height:1.55;}
+.ioc-w{font-size:.68rem;color:#f87171;word-break:break-all;line-height:1.55;}
+.ioc-n{font-size:.68rem;color:#facc15;margin-top:6px;line-height:1.5;}
+/* ━━━ COMPACT MODE ━━━ */
+.cmode .grid{grid-template-columns:1fr!important;gap:3px;}
+.cmode .card{border-radius:var(--r-sm);}
+.cmode .ctop{padding:9px 14px 8px;display:flex;flex-direction:row;align-items:center;gap:10px;}
+.cmode .cmeta{margin-bottom:0;flex-shrink:0;}
+.cmode .ctitle{flex:1;margin-bottom:0;font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+.cmode .csum,.cmode .clabels{display:none;}
+.cmode .cregions{margin-bottom:0;flex-shrink:0;}
+.cmode .cdate{display:none;}
+.cmode .ctags{display:none;}
+.cmode .xbtn{padding:9px 14px;border-top:none;border-left:1px solid var(--br);width:auto;flex-shrink:0;}
+.cmode .xbtn span:first-child{display:none;}
+.cmode .cdet{border-top:1px solid var(--br);}
+/* ━━━ UPLOAD SECTION ━━━ */
+.upload-section{background:var(--sur);border:1px solid var(--br);border-radius:var(--r);overflow:hidden;transition:background .2s;}
+.upload-header{padding:clamp(14px,2.5vw,20px) clamp(14px,2.5vw,20px) 12px;}
+.upload-header h3{font-size:clamp(.88rem,2vw,.97rem);font-weight:800;color:var(--text);margin-bottom:4px;}
+.upload-header p{font-size:.82rem;color:var(--tmid);line-height:1.7;}
+.upload-header p strong{color:var(--text);}
+.upload-body{padding:clamp(14px,2.5vw,20px);border-top:1px solid var(--br);background:var(--s2);}
+/* drop zone */
+.drop-zone{border:2px dashed var(--blt);border-radius:var(--r-sm);padding:clamp(20px,3vw,32px) 16px;text-align:center;cursor:pointer;transition:all .2s;background:var(--s3);}
+.drop-zone:hover,.drop-zone.drag{border-color:var(--gold);background:rgba(245,166,35,.04);}
+.dz-icon{font-size:2rem;margin-bottom:8px;}
+.dz-main{font-size:.87rem;font-weight:600;color:var(--text);margin-bottom:4px;}
+.dz-sub{font-size:.75rem;color:var(--tmut);}
+.dz-file{font-size:.78rem;color:var(--gold);font-weight:600;margin-top:6px;display:none;}
+input[type="file"]#pdfInput{display:none;}
+/* upload states */
+.upload-status{margin-top:12px;display:none;}
+.us-bar{height:3px;background:var(--br);border-radius:99px;overflow:hidden;margin-bottom:10px;}
+.us-bar-fill{height:100%;background:var(--gold);border-radius:99px;transition:width .3s ease;width:0%;}
+.us-msg{font-size:.8rem;color:var(--tmid);display:flex;align-items:center;gap:8px;}
+.us-spin{animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.us-success{color:#4ade80;}
+.us-error{color:#f87171;}
+.upload-btn{width:100%;padding:11px 18px;background:var(--gold);color:#07111F;border-radius:var(--r-sm);font-size:.87rem;font-weight:800;transition:all .15s;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.upload-btn:hover{background:#e8961f;}
+.upload-btn:disabled{background:var(--br);color:var(--tmut);cursor:not-allowed;}
+/* dynamic section empty state */
+.dy-empty{padding:28px;text-align:center;color:var(--tmut);font-size:.83rem;grid-column:1/-1;display:none;}
+/* ━━━ GLOSSARY ━━━ */
+.gw{margin-top:36px;border:1px solid var(--br);border-radius:var(--r);overflow:hidden;}
+.ghdr{display:flex;align-items:center;justify-content:space-between;padding:14px clamp(13px,2.5vw,22px);background:var(--sur);cursor:pointer;gap:9px;transition:background .15s;width:100%;text-align:left;}
+.ghdr:hover{background:var(--s2);}
+.ghl{display:flex;align-items:center;gap:9px;}
+.gttl{font-size:clamp(.85rem,2vw,.95rem);font-weight:800;color:var(--text);}
+.gcnt{font-size:.63rem;font-weight:700;background:rgba(245,166,35,.11);color:var(--gold);border:1px solid rgba(245,166,35,.22);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;}
+.gh-hint{font-size:.7rem;color:var(--tmut);margin-left:auto;flex-shrink:0;}
+.garr{font-size:1rem;color:var(--gold);transition:transform .22s;flex-shrink:0;}
+.gw.on .garr{transform:rotate(180deg);}
+.gbody{display:none;background:var(--s2);border-top:1px solid var(--br);padding:clamp(13px,2.5vw,22px);}
+.gw.on .gbody{display:block;}
+.gc{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+.gs{flex:1;min-width:180px;background:var(--s3);border:1px solid var(--blt);border-radius:var(--r-sm);padding:8px 12px;font-size:.82rem;color:var(--text);outline:none;transition:border-color .15s;}
+.gs:focus{border-color:var(--gold);}
+.gs::placeholder{color:var(--tmut);}
+.az{display:flex;flex-wrap:wrap;gap:3px;}
+.azb{width:26px;height:26px;font-size:.63rem;font-weight:700;border-radius:5px;border:1px solid var(--br);background:var(--s3);color:var(--tmut);transition:all .12s;display:flex;align-items:center;justify-content:center;}
+.azb:hover{border-color:var(--gold);color:var(--gold);}
+.azb.on{background:var(--gold);color:#07111F;border-color:var(--gold);}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:8px;}
+.gt{background:var(--sur);border:1px solid var(--br);border-radius:var(--r-sm);padding:11px 13px;transition:border-color .15s;}
+.gt:hover{border-color:var(--blt);}
+.gtw{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:2px;}
+.gta{font-size:.63rem;color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:600;display:block;margin-bottom:4px;}
+.gtd{font-size:.75rem;color:var(--tmid);line-height:1.6;}
+.gt.gh{display:none;}
+.no-res{font-size:.8rem;color:var(--tmut);padding:18px;text-align:center;grid-column:1/-1;}
+.hidden{display:none!important;}
+footer{border-top:1px solid var(--br);padding:clamp(13px,2.5vw,20px) clamp(16px,5vw,44px);text-align:center;}
+footer p{font-size:.67rem;color:var(--tmut);line-height:1.9;}
+</style>
+</head>
+<body>
+<div id="tt" role="tooltip" aria-hidden="true"><span id="tt-name"></span><span id="tt-body"></span></div>
+
+<header>
+  <div class="hrow">
+    <div>
+      <div class="hbrow">Visa PERC · Network Defense</div>
+      <h1 class="htitle">The Pr<span>3</span>ssure Gauge</h1>
+      <p class="hsub" id="hsub">8 sources: Pr3ssure Gauge Mar 2026 · PERC-26-07 · PERC-26-08 · PERC-26-09 · PERC-26-10 · PERC-26-11 · PERC-26-12 · PERC-26-13</p>
+    </div>
+    <div class="hbadge">VISA CONFIDENTIAL</div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="sn" id="sTot">18</div><div class="sl">Threats Total</div></div>
+  <div class="stat"><div class="sn">7</div><div class="sl">Security Alerts</div></div>
+  <div class="stat"><div class="sn">8</div><div class="sl">Critical Risk</div></div>
+  <div class="stat"><div class="sn">$442B</div><div class="sl">Global Fraud 2025</div></div>
+  <div class="stat"><div class="sn">$20M+</div><div class="sl">ATM Losses US</div></div>
+  <div class="stat"><div class="sn">142K</div><div class="sl">Stolen Data Forum</div></div>
+</div>
+
+<div class="sticky-bar">
+  <div class="search-row">
+    <div class="search-wrap">
+      <span class="s-icon">🔍</span>
+      <input id="si" class="s-input" type="text" placeholder="Search threats, attack types, tags, regions…" oninput="doSearch(this.value)" autocomplete="off" spellcheck="false">
+      <button class="s-clear" id="sc" onclick="clearSearch()" style="display:none">✕</button>
+    </div>
+  </div>
+  <div class="filter-row">
+    <span style="font-size:.6rem;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:1.5px;flex-shrink:0;">Type</span>
+    <button class="fp on"       onclick="filt('type','all',this)">All</button>
+    <button class="fp fp-al"    onclick="filt('type','alert',this)">🚨 Alerts</button>
+    <button class="fp fp-ga"    onclick="filt('type','gauge',this)">📊 Gauge</button>
+    <button class="fp fp-dynamic" onclick="filt('type','dynamic',this)">✨ New</button>
+    <div class="fsep"></div>
+    <span style="font-size:.6rem;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:1.5px;flex-shrink:0;">Cat</span>
+    <button class="fp fp-sc"    onclick="filt('cat','scam',this)">Scam</button>
+    <button class="fp fp-cy"    onclick="filt('cat','cyber',this)">Cyber</button>
+    <button class="fp fp-ph"    onclick="filt('cat','physical',this)">Physical</button>
+    <button class="fp fp-la"    onclick="filt('cat','law',this)">Law</button>
+    <div class="fsep"></div>
+    <span style="font-size:.6rem;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:1.5px;flex-shrink:0;">Region</span>
+    <button class="fp fp-global" onclick="filt('region','global',this)">🌐 Global</button>
+    <button class="fp fp-apac"   onclick="filt('region','apac',this)">🌏 APAC</button>
+    <button class="fp fp-eu"     onclick="filt('region','eu',this)">🌍 EU</button>
+    <button class="fp fp-us"     onclick="filt('region','us',this)">🌎 US</button>
+    <button class="fp fp-africa" onclick="filt('region','africa',this)">🌍 Africa</button>
+  </div>
+</div>
+
+<main>
+<div class="toolbar">
+  <span class="tb-lbl">Display</span>
+  <div class="tg">
+    <button class="tbtn" onclick="zoom(-1)">A−</button>
+    <span id="zv">100%</span>
+    <button class="tbtn" onclick="zoom(1)">A+</button>
+  </div>
+  <div class="tb-sep"></div>
+  <button class="tbtn" id="themeBtn" onclick="toggleTheme()">🌙 Dark</button>
+  <div class="tb-sep"></div>
+  <button class="tbtn" id="compactBtn" onclick="toggleCompact()">≡ Compact view</button>
+</div>
+
+<div class="legend">
+  <div class="li"><div class="ld" style="background:#f87171;box-shadow:0 0 4px rgba(244,63,94,.4)"></div>Critical</div>
+  <div class="li"><div class="ld" style="background:#fb923c"></div>High</div>
+  <div class="li"><div class="ld" style="background:#facc15"></div>Medium</div>
+  <div class="li"><div class="ld" style="background:#4ade80"></div>Low</div>
+  <div class="l-hint"><span class="gu">underlined</span> — hover for definition</div>
+</div>
+
+<!-- ████ SECURITY ALERTS ████ -->
+<div class="sh">
+  <div class="sl-al"></div><h2>Security Alerts</h2>
+  <span class="sp-al">7 Alerts · Mar 2026</span>
+  <button class="sh-sort" id="sortAlerts" onclick="sortCards('ag','risk')">Sort by Risk ↓</button>
+  <span class="sh-cnt" id="ac">7 of 7</span>
+</div>
+<div class="grid" id="ag">
+<!-- PERC-26-07 -->
+<div class="card ca-al" data-t="alert" data-c="cyber" data-r="global" data-order="7" data-risk="1" data-s="wholesale merchant digital skimmer file upload web shell iframe wrapper ecommerce ioc php">
+  <div class="ctop">
+    <div class="cmeta"><span class="cchip cc-al">PERC-26-07</span><span class="rbadge rb-cr">CRITICAL</span></div>
+    <div class="ctitle">Wholesale eCommerce Site Hit by Hidden Wrapper Code — Cards Stolen Silently at Checkout</div>
+    <div class="cregions"><span class="reg r-global">🌐 Global</span></div>
+    <div class="csum">Attackers exploited a file upload feature to plant a hidden <span class="term" data-term="Web Shell" data-def="A malicious script uploaded to a web server that gives the attacker remote control — they can run commands, steal files, and install more tools through a normal web browser.">web shell</span> on a wholesale eCommerce site, then modified the checkout page's payment form with secret wrapper code that silently copied full card details from every customer — completely invisible to shoppers and security tools alike.</div>
+    <div class="clabels">
+      <div class="cl cl-med"><span class="ck">Medium</span><span class="cv">eCommerce Website — File Upload Feature</span></div>
+      <div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">PHP Web Shell + <span class="term" data-term="iframe Wrapper Code Skimmer" data-def="Malicious code that intercepts the checkout page's payment form, swaps the real payment URL for a fake one, and captures card details before passing the order through normally.">iframe Wrapper Code Skimmer</span></span></div>
+      <div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Mass PAN, CVV2, name, address and expiry exposure — high fraud liability and chargeback volume</span></div>
+      <div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Full card details stolen silently during checkout — no visible warning</span></div>
+    </div>
+    <div class="cdate">Mar 2026</div>
+  </div>
+  <div class="ctags"><span class="ctag">Digital Skimmer</span><span class="ctag">Web Shell</span><span class="ctag">eCommerce</span><span class="ctag">iframe Hijack</span><span class="ctag">IOCs Included</span></div>
+  <button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button>
+  <div class="cdet">
+    <div class="db"><div class="dlbl">How the Attack Worked</div>
+      <div class="flow">
+        <div class="fs bl"><div class="fs-ic">📁</div><div class="fs-body"><div class="fs-lbl">Step 1 · Entry</div><div class="fs-txt">Exploited the site's file upload feature to plant a PHP web shell — giving hidden, persistent server access</div></div></div>
+        <div class="fs bl"><div class="fs-ic">🔧</div><div class="fs-body"><div class="fs-lbl">Step 2 · Persistence</div><div class="fs-txt">Web shell used to run commands on the server undetected, preparing for the main attack</div></div></div>
+        <div class="fs am"><div class="fs-ic">🔀</div><div class="fs-body"><div class="fs-lbl">Step 3 · Wrapper Injection</div><div class="fs-txt">The legitimate checkout payment form (<span class="term" data-term="Payment iframe" data-def="A small embedded window in a checkout page that loads the real payment form from a trusted provider. Replacing its URL lets attackers substitute a fake form.">payment iframe</span>) silently swapped for an attacker-controlled fake</div></div></div>
+        <div class="fs rd"><div class="fs-ic">🃏</div><div class="fs-body"><div class="fs-lbl">Step 4 · Silent Skimming</div><div class="fs-txt">Every customer's card number, name, address, expiry and <span class="term" data-term="CVV2" data-def="The 3-digit security code on the back of a card. Proves the cardholder physically holds the card. Required for most online payments.">CVV2</span> captured invisibly</div></div></div>
+        <div class="fs rd"><div class="fs-ic">📤</div><div class="fs-body"><div class="fs-lbl">Step 5 · Exfiltration</div><div class="fs-txt">Stolen data logged to a hidden file; attackers periodically return to collect it</div></div></div>
+      </div>
+    </div>
+    <div class="db"><div class="dlbl">Malware Indicators — Block These</div>
+      <div class="ioc">
+        <div class="ioc-l">Malicious filename (WSO Web Shell v2.5)</div>
+        <div class="ioc-v">sw C7B9BE81.php</div>
+        <div class="ioc-l">SHA256</div>
+        <div class="ioc-w">5c4e158ce40c71fae9cfa2b1ac07ae9a6b90f2f13d7c5259974491af09c816c9</div>
+        <div class="ioc-n">⚠ Scan upload directories for this file immediately</div>
+      </div>
+    </div>
+    <div class="db"><div class="dlbl">What to Do</div>
+      <ul class="alist">
+        <li>Restrict file upload features to authenticated admin users only</li>
+        <li>Use <span class="term" data-term="File Integrity Monitoring (FIM)" data-def="Software that alerts you the moment any unauthorised change is made to critical files — like a payment script being modified. Catches this type of attack early.">File Integrity Monitoring</span> to alert on any unauthorised changes to payment-related scripts</li>
+        <li>Monitor web server logs for unexpected PHP files in upload directories</li>
+        <li>Banks: use CAMS alerts to block compromised PANs from skimming incidents</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- PERC-26-08 -->
+<div class="card ca-al" data-t="alert" data-c="scam" data-r="global" data-order="8" data-risk="2" data-s="social media survey scam prize credential harvest recurring billing fake profile retailer">
+  <div class="ctop">
+    <div class="cmeta"><span class="cchip cc-al">PERC-26-08</span><span class="rbadge rb-hi">HIGH</span></div>
+    <div class="ctitle">Fake "Win a Prize" Surveys Steal Your Card Number</div>
+    <div class="cregions"><span class="reg r-global">🌐 Global</span></div>
+    <div class="csum">Scammers post ads impersonating big retailers, promising free products. A short survey leads to a fake checkout that steals your card details — then secretly signs you up for ongoing monthly charges.</div>
+    <div class="clabels">
+      <div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Social Media Platform</span></div>
+      <div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Credential Phishing + Fraudulent Subscription Enrolment</span></div>
+      <div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Fraud liability, unauthorised transaction disputes, chargeback exposure</span></div>
+      <div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Card data theft, unauthorised charges, unwanted recurring billing</span></div>
+    </div>
+    <div class="cdate">Mar 2026</div>
+  </div>
+  <div class="ctags"><span class="ctag">Social Media</span><span class="ctag">Credential Harvest</span><span class="ctag">Recurring Billing</span></div>
+  <button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button>
+  <div class="cdet">
+    <div class="db"><div class="dlbl">Attack Flow</div>
+      <div class="flow">
+        <div class="fs bl"><div class="fs-ic">📱</div><div class="fs-body"><div class="fs-lbl">Step 1 · Lure</div><div class="fs-txt">Fake ad: "Win a prize!" — from a profile with no followers</div></div></div>
+        <div class="fs am"><div class="fs-ic">📋</div><div class="fs-body"><div class="fs-lbl">Step 2 · Survey</div><div class="fs-txt">Everyone "wins" — designed so no one loses</div></div></div>
+        <div class="fs am"><div class="fs-ic">🚚</div><div class="fs-body"><div class="fs-lbl">Step 3 · Checkout</div><div class="fs-txt">Fake page requests $9–$15 "shipping fee"</div></div></div>
+        <div class="fs rd"><div class="fs-ic">💳</div><div class="fs-body"><div class="fs-lbl">Step 4 · Theft</div><div class="fs-txt">Card stolen even if payment is declined. Monthly charges begin silently.</div></div></div>
+      </div>
+    </div>
+    <div class="db"><div class="dlbl">What to Do</div>
+      <ul class="alist">
+        <li>No real retailer asks for a card number to claim a survey prize</li>
+        <li>Watch for small charges ($1–$15) from unknown merchants followed by recurring billing</li>
+        <li>Banks: flag low-value CNP transactions from social media campaign merchants</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- PERC-26-09 -->
+<div class="card ca-al" data-t="alert" data-c="scam" data-r="global" data-order="9" data-risk="2" data-s="romance scam dating subscription fraud bots fake profile trial billing recurring ai">
+  <div class="ctop">
+    <div class="cmeta"><span class="cchip cc-al">PERC-26-09</span><span class="rbadge rb-hi">HIGH</span></div>
+    <div class="ctitle">AI Bots on Fake Dating Sites Trap Victims in Impossible-to-Cancel Subscriptions</div>
+    <div class="cregions"><span class="reg r-global">🌐 Global</span></div>
+    <div class="csum">Networks of fake dating platforms use AI-scripted bots to simulate romantic interest, lure victims into a tiny "trial" fee, then secretly enrol the card across multiple affiliated scam sites in costly subscriptions — with cancellation made deliberately impossible.</div>
+    <div class="clabels">
+      <div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Fake Online Dating Platforms (multiple linked sites)</span></div>
+      <div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Romance Bot Scam + Deceptive Subscription Conversion (AI-Assisted)</span></div>
+      <div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Recurring charges via collusive merchants with generic descriptors — elevated dispute ratios</span></div>
+      <div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Card enrolled in multiple unauthorised subscriptions; near-impossible to cancel; identity theft risk</span></div>
+    </div>
+    <div class="cdate">Mar 2026</div>
+  </div>
+  <div class="ctags"><span class="ctag">Romance Scam</span><span class="ctag">Subscription Fraud</span><span class="ctag">AI Bots</span><span class="ctag">Dating Platform</span></div>
+  <button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button>
+  <div class="cdet">
+    <div class="db"><div class="dlbl">Attack Flow</div>
+      <div class="flow">
+        <div class="fs bl"><div class="fs-ic">💌</div><div class="fs-body"><div class="fs-lbl">Step 1 · Lure</div><div class="fs-txt">Fake dating site — free registration, promises local matches</div></div></div>
+        <div class="fs bl"><div class="fs-ic">🤖</div><div class="fs-body"><div class="fs-lbl">Step 2 · Bot Engagement</div><div class="fs-txt">AI-scripted bots immediately flood new user with flattering messages</div></div></div>
+        <div class="fs am"><div class="fs-ic">⏰</div><div class="fs-body"><div class="fs-lbl">Step 3 · Paywall + Urgency</div><div class="fs-txt">Messages blocked. Countdown timers pressure victim into a small trial (&lt; $5)</div></div></div>
+        <div class="fs am"><div class="fs-ic">📄</div><div class="fs-body"><div class="fs-lbl">Step 4 · Hidden Renewal</div><div class="fs-txt">Fine-print terms auto-convert trial to monthly subscription costing tens to hundreds of dollars</div></div></div>
+        <div class="fs rd"><div class="fs-ic">🔁</div><div class="fs-body"><div class="fs-lbl">Step 5 · Cross-Site Cloning</div><div class="fs-txt">Card details replicated across multiple affiliated fake sites — more unauthorised subscriptions</div></div></div>
+        <div class="fs rd"><div class="fs-ic">🚫</div><div class="fs-body"><div class="fs-lbl">Step 6 · Cancellation Trap</div><div class="fs-txt">Cancel links non-functional. Some victims must cancel their entire card to stop charges.</div></div></div>
+      </div>
+    </div>
+    <div class="db"><div class="dlbl">What Banks Should Do</div>
+      <ul class="alist">
+        <li>Monitor for multiple low-value recurring charges from similar merchant descriptors on the same card</li>
+        <li>Flag sudden escalation from small trial charges to high monthly subscriptions</li>
+        <li>If victim reports this scam, assist with card blocking immediately — standard cancellation may not work</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- PERC-26-10 -->
+<div class="card ca-al" data-t="alert" data-c="cyber" data-r="global" data-order="10" data-risk="1" data-s="api keys pos ecommerce sql injection fake refund purchase return authorization web skimmer ioc">
+  <div class="ctop">
+    <div class="cmeta"><span class="cchip cc-al">PERC-26-10</span><span class="rbadge rb-cr">CRITICAL</span></div>
+    <div class="ctitle">Hackers Stole a POS Company's "Master Keys" to Generate Fake Refunds</div>
+    <div class="cregions"><span class="reg r-global">🌐 Global</span></div>
+    <div class="csum">Attackers exploited a database weakness to extract secret system credentials (<span class="term" data-term="API Keys" data-def="Secret codes that let one software system authenticate itself to another. If stolen, an attacker can fully impersonate that system.">API keys</span>) stored in plain text, then used those to push fake refunds to dozens of merchants — without ever accessing the merchants themselves.</div>
+    <div class="clabels">
+      <div class="cl cl-med"><span class="ck">Medium</span><span class="cv">POS Platform / eCommerce Admin Interface</span></div>
+      <div class="cl cl-atk"><span class="ck">Attack</span><span class="cv"><span class="term" data-term="SQL Injection" data-def="Crafted text entered into a website form tricks the database into revealing contents or granting broader access.">SQL Injection</span> → API Credential Theft → Fraudulent Refund Abuse</span></div>
+      <div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Fraudulent refund settlement losses — credits with no matching purchase</span></div>
+      <div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Low in this incident — no card data was exfiltrated</span></div>
+    </div>
+    <div class="cdate">Mar 2026</div>
+  </div>
+  <div class="ctags"><span class="ctag">API Compromise</span><span class="ctag">Fake Refunds</span><span class="ctag">Web Skimmer</span><span class="ctag">IOCs Included</span></div>
+  <button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button>
+  <div class="cdet">
+    <div class="db"><div class="dlbl">Block These Immediately</div>
+      <div class="ioc">
+        <div class="ioc-l">Malicious filename</div><div class="ioc-v">facebook-sdk-shim.min.js</div>
+        <div class="ioc-l">SHA256</div><div class="ioc-w">7de693768fbb7fdab26b8c0c53edc37b2e34eb5f328dde01b058a6e1ee189435</div>
+        <div class="ioc-l">Exfiltration domain</div><div class="ioc-w">www[.]javascriptcdn[.]xyz</div>
+        <div class="ioc-n">⚠ Block javascriptcdn[.]xyz in your network firewall immediately</div>
+      </div>
+    </div>
+    <div class="db"><div class="dlbl">What to Do</div>
+      <ul class="alist">
+        <li>Never store API keys in plain text — always encrypt them</li>
+        <li>Deploy a WAF to block SQL injection on admin interfaces</li>
+        <li>Monitor for refund transactions with no matching purchase record</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- PERC-26-11 -->
+<div class="card ca-al" data-t="alert" data-c="cyber" data-r="global" data-order="11" data-risk="1" data-s="hospitality saas hotel skimmer vpn admin accounts digital skimming booking platform image malware ioc">
+  <div class="ctop">
+    <div class="cmeta"><span class="cchip cc-al">PERC-26-11</span><span class="rbadge rb-cr">CRITICAL</span></div>
+    <div class="ctitle">Hospitality SaaS Platform Hacked — Hotel Booking Card Data Stolen Across Multiple Sites</div>
+    <div class="cregions"><span class="reg r-global">🌐 Global</span></div>
+    <div class="csum">Attackers used ghost admin accounts and accidentally-open VPN ports to access a hospitality management platform, planted skimmer malware disguised as image files, and silently stole card data from hotel guests across multiple downstream sites simultaneously.</div>
+    <div class="clabels">
+      <div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Hospitality SaaS / On-Premises Booking Platform</span></div>
+      <div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Digital Skimming via Ghost Admin Accounts + Open <span class="term" data-term="VPN Port Misconfiguration" data-def="A VPN creates encrypted connections to private networks. Leaving ports accidentally open during maintenance gives attackers an unauthorised entry point.">VPN Ports</span> + Malicious Image File</span></div>
+      <div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">PAN, CVV2, expiry stolen across multiple hospitality downstream merchants — ongoing sector trend</span></div>
+      <div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Card details stolen during hotel booking checkout — fraud may emerge days or weeks later</span></div>
+    </div>
+    <div class="cdate">Mar 2026</div>
+  </div>
+  <div class="ctags"><span class="ctag">Digital Skimmer</span><span class="ctag">Hospitality</span><span class="ctag">SaaS Compromise</span><span class="ctag">VPN Misconfiguration</span><span class="ctag">IOCs Included</span></div>
+  <button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button>
+  <div class="cdet">
+    <div class="db"><div class="dlbl">Block These Immediately</div>
+      <div class="ioc">
+        <div class="ioc-l">File 1: maxstat-init.js · SHA256</div>
+        <div class="ioc-w">f21038124c5d0fdd703f30f59327ce678107d27bccb31baf5614ecde3b5b0d63</div>
+        <div class="ioc-l">Domain</div><div class="ioc-w">maxstat[.]co (190.211.254[.]93)</div>
+        <div class="ioc-l">File 2: statslab-init.js · SHA256</div>
+        <div class="ioc-w">bb4fd6656391452f8509f1ecdad86804ac509cc4345578a289500f226f6493a2</div>
+        <div class="ioc-l">Domain</div><div class="ioc-w">statslab[.]co (46.19.143[.]147)</div>
+        <div class="ioc-l">Tracking cookie</div><div class="ioc-v">mx38475mv254n34</div>
+        <div class="ioc-n">⚠ Block both domains in your network firewall immediately</div>
+      </div>
+    </div>
+    <div class="db"><div class="dlbl">What to Do</div>
+      <ul class="alist">
+        <li>Enforce <span class="term" data-term="MFA (Multi-Factor Authentication)" data-def="Requiring two forms of proof to log in — password + SMS code. Even with stolen credentials, criminals can't access the account without the second factor.">MFA</span> on all admin accounts, VPN access, and database connections — no exceptions</li>
+        <li>Audit all admin accounts regularly; deactivate any unrecognised accounts immediately</li>
+        <li>Never leave VPN ports open during infrastructure changes — use a strict change management checklist</li>
+        <li>Banks: watch for clusters of CNP fraud from hotel/hospitality merchants</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- PERC-26-12 -->
+<div class="card ca-al" data-t="alert" data-c="scam" data-r="eu apac" data-order="12" data-risk="1" data-s="hotel booking phishing 3ds bypass digital wallet eu europe apac asia authorized push payment">
+  <div class="ctop">
+    <div class="cmeta"><span class="cchip cc-al">PERC-26-12</span><span class="rbadge rb-cr">CRITICAL</span></div>
+    <div class="ctitle">Hotel Booking Phishing So Convincing It Passes Your Bank's Security Check</div>
+    <div class="cregions"><span class="reg r-eu">🌍 EU</span><span class="reg r-apac">🌏 APAC</span></div>
+    <div class="csum">Scammers use your real booking details to send convincing fake payment messages. Victims pay $300–$1,500 in fake taxes. Because <strong>you</strong> authorise the payment yourself, the bank's <span class="term" data-term="3DS / 3D Secure" data-def="An extra bank security step for online payments — a one-time code by SMS or app. Bypassed here because the victim believes the request is real and willingly approves it.">3DS check</span> passes, making recovery nearly impossible.</div>
+    <div class="clabels">
+      <div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Booking Platform — Email / Messaging App</span></div>
+      <div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Social Engineering Phishing — Authorised Push Payment Fraud</span></div>
+      <div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Cardholder-authorised fraud — very difficult to dispute; increased complaints</span></div>
+      <div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Financial loss $300–$1,500 per incident, near-zero recovery once authorised</span></div>
+    </div>
+    <div class="cdate">Mar 2026</div>
+  </div>
+  <div class="ctags"><span class="ctag">Hotel Booking</span><span class="ctag">EU</span><span class="ctag">APAC</span><span class="ctag">3DS Bypass</span><span class="ctag">Digital Wallet</span></div>
+  <button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button>
+  <div class="cdet">
+    <div class="db"><div class="dlbl">What to Do</div>
+      <ul class="alist">
+        <li>Real booking platforms <strong>never</strong> request extra fees via a link in a message after booking</li>
+        <li>If in doubt, go directly to the platform's app — never use links in messages</li>
+        <li>Banks: flag CNP <span class="term" data-term="Digital Wallet Top-up" data-def="Loading money onto a digital wallet app. Fraudsters use this because funds move quickly to mule accounts and are hard to reverse.">digital wallet</span> top-ups of $300–$1,500 shortly following a travel booking</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- PERC-26-13 -->
+<div class="card ca-al" data-t="alert" data-c="cyber" data-r="global" data-order="13" data-risk="1" data-s="force post settlement fraud fake merchants kyb payment gateway cashier bypass authorization">
+  <div class="ctop">
+    <div class="cmeta"><span class="cchip cc-al">PERC-26-13</span><span class="rbadge rb-cr">CRITICAL</span></div>
+    <div class="ctitle">Surge in "Force Post" Fraud — Bypassing Payment Approval Entirely</div>
+    <div class="cregions"><span class="reg r-global">🌐 Global</span></div>
+    <div class="csum">A rising attack called <span class="term" data-term="Force Post" data-def="Skipping the payment approval step and pushing a transaction directly into final settlement — where money moves. The bank never gets to review or decline it first.">force post</span> lets fraudsters skip bank approval and push transactions straight to settlement. Fake merchants are being registered specifically for this, exploiting weak onboarding controls globally.</div>
+    <div class="clabels">
+      <div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Payment Gateway / POS Terminal</span></div>
+      <div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Force Post Settlement Fraud — Merchant Impersonation / Collusion</span></div>
+      <div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Forced settlement losses — no chance to block in real time</span></div>
+      <div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Card numbers used without consent; minimal direct individual impact</span></div>
+    </div>
+    <div class="cdate">Mar 2026</div>
+  </div>
+  <div class="ctags"><span class="ctag">Force Post</span><span class="ctag">Settlement Fraud</span><span class="ctag">Fake Merchants</span><span class="ctag">Global Rise</span></div>
+  <button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button>
+  <div class="cdet">
+    <div class="db"><div class="dlbl">What to Do</div>
+      <ul class="alist">
+        <li>Acquirers: tighten <span class="term" data-term="KYB (Know Your Business)" data-def="Verifying a merchant's legitimacy before allowing card payments. Weak KYB lets fraudulent merchants into the ecosystem.">KYB</span> — new merchants with zero transaction history need manual review</li>
+        <li>Compare settlement records against authorisation records daily — flag mismatches</li>
+        <li><span class="term" data-term="PAN (Primary Account Number)" data-def="The 16-digit card number. PANs not yet issued to any cardholder should automatically reject all transactions.">PANs</span> not issued to any cardholder must auto-reject all transactions</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><!-- /ag -->
+
+<!-- ████ MONTHLY GAUGE ████ -->
+<div class="sh">
+  <div class="sl-ga"></div><h2>Monthly Pr3ssure Gauge</h2>
+  <span class="sp-ga">11 Items · Mar 2026</span>
+  <button class="sh-sort" id="sortGauge" onclick="sortCards('gg','risk')">Sort by Risk ↓</button>
+  <span class="sh-cnt" id="gc">11 of 11</span>
+</div>
+<div class="grid" id="gg">
+<div class="card ca-ga" data-t="gauge" data-c="scam" data-r="global" data-order="1" data-risk="3" data-s="ransomware 0apt fake hoax re-extortion scam"><div class="ctop"><div class="cmeta"><span class="cchip cc-sig">⚡ Significant</span><span class="rbadge rb-md">MEDIUM</span></div><div class="ctitle">Fake Ransomware Gang (0APT) — Actually a Scam Itself</div><div class="cregions"><span class="reg r-global">🌐 Global</span></div><div class="csum">A group called 0APT claimed to have hacked 200+ companies and demanded ransoms. Analysts found the "stolen data" cannot be downloaded and appears invented. A 1 Bitcoin entry fee exposes it as a money-grab targeting other criminals.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Dark Web / Criminal Forums</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Re-extortion Hoax / Fake RaaS</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Threat intelligence noise, wasted analyst resources</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Low — data recycled from old public breaches</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">Ransomware</span><span class="ctag">Re-extortion</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">What to Do</div><ul class="alist"><li>Demand downloadable proof of freshly stolen data before treating any ransom claim seriously</li><li>Verify any claimed breach against your own system logs before reacting</li></ul></div></div></div>
+<div class="card ca-ga" data-t="gauge" data-c="cyber" data-r="global" data-order="2" data-risk="1" data-s="handala iran hacktivist pos terminal mdm wipe mois supply chain"><div class="ctop"><div class="cmeta"><span class="cchip cc-sig">⚡ Significant</span><span class="rbadge rb-cr">CRITICAL</span></div><div class="ctitle">Iran-Linked Hackers Attack Payment Terminals &amp; Wipe 200,000 Devices</div><div class="cregions"><span class="reg r-global">🌐 Global</span></div><div class="csum"><span class="term" data-term="Hacktivist" data-def="A hacker motivated by political goals rather than money — acting in support of a government or cause.">Hacktivist</span> group Handala (linked to Iran's intelligence ministry) claimed to breach a global POS provider and remotely wiped 200,000 corporate devices across 70+ countries. US DOJ seized Handala's websites 19 March 2026.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">POS Infrastructure / Corporate Networks</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Hacktivist Supply Chain Breach + MDM Abuse</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">POS disruption, potential payment transaction data exposure</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Payment data exposure if POS breach confirmed; service disruption</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">Hacktivism</span><span class="ctag">POS</span><span class="ctag">Iran</span><span class="ctag">Supply Chain</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">What to Do</div><ul class="alist"><li>Audit who holds admin access to MDM tools and payment platform admin panels</li><li>Test your business continuity plan for a total technology outage</li><li>Monitor vendor security announcements from POS and card processing providers</li></ul></div></div></div>
+<div class="card ca-ga" data-t="gauge" data-c="cyber" data-r="global" data-order="3" data-risk="2" data-s="qr code quishing mobile phishing otp credential theft url shortener"><div class="ctop"><div class="cmeta"><span class="cchip cc-cy">🛡 Cyber TTP</span><span class="rbadge rb-hi">HIGH</span></div><div class="ctitle">QR Code "Quishing" Targets Mobile Users</div><div class="cregions"><span class="reg r-global">🌐 Global</span></div><div class="csum">Fraudsters embed fake QR codes in legitimate-looking pages. Scanning one leads to a credential-stealing site. Unlike email links, QR codes are nearly impossible to inspect for red flags on a phone screen.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Mobile Device / QR Code</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">QR Code Phishing (Quishing) — Bypasses Email Security</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Account takeover, OTP interception, fraudulent transactions</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Login credential theft, banking app compromise</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">Quishing</span><span class="ctag">Mobile</span><span class="ctag">OTP Theft</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">What to Do</div><ul class="alist"><li>After scanning, always check the full URL before tapping anything</li><li>Never scan QR codes from unexpected emails or messages</li><li>If a QR scan asks for banking credentials, close it and open your bank's official app directly</li></ul></div></div></div>
+<div class="card ca-ga" data-t="gauge" data-c="physical" data-r="global" data-order="4" data-risk="3" data-s="cash to card kiosk prepaid anonymous money laundering aml structuring"><div class="ctop"><div class="cmeta"><span class="cchip cc-ph">💳 Physical</span><span class="rbadge rb-md">MEDIUM</span></div><div class="ctitle">Anonymous Cash-to-Card Kiosks Enable Money Laundering</div><div class="cregions"><span class="reg r-global">🌐 Global</span></div><div class="csum">Kiosks convert cash into branded prepaid cards instantly — no identity check. Regulators warn these are being exploited to launder money with no traceable trail.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Physical Cash Kiosk / Prepaid Card Network</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Money Laundering via Anonymous Cash Loading</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">AML compliance exposure, regulatory scrutiny</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Low direct risk to individuals</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">Prepaid Cards</span><span class="ctag">Money Laundering</span><span class="ctag">AML</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">What to Watch For</div><ul class="alist"><li>Multiple small deposits onto prepaid cards in quick succession at the same kiosk</li><li>Rapid card turnover — loaded and discarded quickly</li></ul></div></div></div>
+<div class="card ca-ga" data-t="gauge" data-c="physical" data-r="apac" data-order="5" data-risk="2" data-s="chip popping card theft physical courier bank impersonation apac asia pacific emv"><div class="ctop"><div class="cmeta"><span class="cchip cc-ph">💳 Physical</span><span class="rbadge rb-hi">HIGH</span></div><div class="ctitle">"Chip Popping" — Couriers Who Collect Your Card to Steal the Chip</div><div class="cregions"><span class="reg r-apac">🌏 APAC</span></div><div class="csum">Scammers call pretending to be your bank and send a courier to collect your card "for safety." The courier cuts the card in half but keeps the chip — still fully functional — for fraudulent purchases. Rising sharply in Asia-Pacific.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Physical Card — In-Person Courier Collection</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Physical Card Theft via Social Engineering (Chip Popping)</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Fraudulent chip-present transactions, card replacement costs</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Unauthorised purchases using stolen chip, account compromise</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">APAC</span><span class="ctag">Card Theft</span><span class="ctag">Social Engineering</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">Key Message</div><ul class="alist"><li>Your real bank will <strong>NEVER</strong> send a courier to collect your physical card</li><li>Hang up and call the number on the back of your card if you receive this call</li></ul></div></div></div>
+<div class="card ca-ga" data-t="gauge" data-c="cyber" data-r="global eu" data-order="6" data-risk="1" data-s="zerodayrat massiv banking malware maas overlay attack otp sms interception iptv streaming"><div class="ctop"><div class="cmeta"><span class="cchip cc-cy">🛡 Cyber TTP</span><span class="rbadge rb-cr">CRITICAL</span></div><div class="ctitle">Two New Phone Malware Tools Steal Banking Credentials &amp; Security Codes</div><div class="cregions"><span class="reg r-global">🌐 Global</span><span class="reg r-eu">🌍 EU</span></div><div class="csum">ZeroDayRAT and Massiv steal banking logins, intercept security codes, and let criminals access accounts while appearing to be the legitimate user. Both sold as criminal subscription services.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Mobile App — Unofficial Download Sites</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">MaaS Overlay Attack + SMS OTP Interception</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Account takeover bypassing MFA, fraudulent transactions</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Full banking account compromise, unauthorised transfers</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">MaaS</span><span class="ctag">Banking Malware</span><span class="ctag">Overlay Attack</span><span class="ctag">OTP Theft</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">What to Do</div><ul class="alist"><li>Only install apps from official stores — App Store or Google Play</li><li>Any streaming app requesting access to messages or banking apps is suspicious</li><li>Banks: flag login sessions with device behaviour inconsistent with a customer's normal patterns</li></ul></div></div></div>
+<div class="card ca-ga" data-t="gauge" data-c="scam" data-r="apac global" data-order="7" data-risk="1" data-s="pig butchering scam southeast asia investment fraud ai scam centers interpol $442b"><div class="ctop"><div class="cmeta"><span class="cchip cc-sc">🎭 Scam</span><span class="rbadge rb-cr">CRITICAL</span></div><div class="ctitle">Southeast Asia Scam Factories Disrupted — AI Makes Fraud 4.5× More Effective</div><div class="cregions"><span class="reg r-apac">🌏 APAC</span><span class="reg r-global">🌐 Global</span></div><div class="csum">US, UK and Thai authorities disrupted scam centres running romance and investment fraud full-time. INTERPOL reports $442B stolen globally in 2025. AI-powered operations are now 4.5× more profitable than non-AI ones.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Social Media / Messaging Apps / Crypto Platforms</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Pig Butchering Investment Fraud — AI-Assisted Social Engineering</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Wire fraud exposure, AML monitoring challenges</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Catastrophic financial loss — life savings theft</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">Pig Butchering</span><span class="ctag">AI Fraud</span><span class="ctag">SEA</span><span class="ctag">$442B</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">Warning Signs</div><ul class="alist"><li>Unsolicited contact that quickly becomes very friendly or romantic</li><li>A "secret" investment platform with guaranteed high returns</li><li>Requests to move conversation to WhatsApp/Telegram</li><li>Requests to invest using cryptocurrency or bank wire transfer</li></ul></div></div></div>
+<div class="card ca-ga" data-t="gauge" data-c="scam" data-r="eu" data-order="8" data-risk="3" data-s="hotel booking one cent spain payment validation bypass"><div class="ctop"><div class="cmeta"><span class="cchip cc-sc">🎭 Scam</span><span class="rbadge rb-md">MEDIUM</span></div><div class="ctitle">Hacker Books €1,000/Night Hotels for €0.01 by Exploiting Booking System</div><div class="cregions"><span class="reg r-eu">🌍 EU</span></div><div class="csum">A suspect in Spain manipulated a hotel platform's payment validation step so luxury reservations appeared fully paid when only €0.01 was charged. Over €20,000 in losses. First documented cybercrime of this exact type.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Hotel Booking Platform (eCommerce)</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Payment Validation Bypass — Server-Side Logic Exploitation</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Minimal — losses fall primarily on the acquirer and merchant</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Low direct risk; sets precedent for wider exploitation</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">Booking Fraud</span><span class="ctag">Payment Bypass</span><span class="ctag">Spain</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">What to Do</div><ul class="alist"><li>Payment validation must run server-side — clients should never be able to mark a payment as complete</li><li>Set real-time alerts for bookings confirmed with anomalously low transaction amounts</li></ul></div></div></div>
+<div class="card ca-ga" data-t="gauge" data-c="scam" data-r="us global" data-order="9" data-risk="2" data-s="doppelbrand brand impersonation phishing fake login domain credential broker gs7"><div class="ctop"><div class="cmeta"><span class="cchip cc-sc">🎭 Scam</span><span class="rbadge rb-hi">HIGH</span></div><div class="ctitle">Operation DoppelBrand: 150+ Fake Login Pages for Major Banks and Tech Firms</div><div class="cregions"><span class="reg r-us">🌎 US</span><span class="reg r-global">🌐 Global</span></div><div class="csum">A criminal group active for nearly a decade built 150+ websites identical to major bank login pages. Stolen credentials sold through an initial access broker model — your login may be used weeks or months after theft.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Email / Fake Website (150+ domains)</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Brand Impersonation Phishing — Credential Brokering</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Account takeover via sold credentials, unauthorised transactions</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Banking login theft, account takeover, identity fraud</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">Brand Spoofing</span><span class="ctag">Credential Theft</span><span class="ctag">Access Broker</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">What to Do</div><ul class="alist"><li>Check the URL carefully before entering login details — one wrong character means a fake site</li><li>Use a password manager — it won't fill credentials on a fake domain</li><li>Enable MFA on all accounts</li></ul></div></div></div>
+<div class="card ca-ga" data-t="gauge" data-c="law" data-r="us" data-order="10" data-risk="2" data-s="atm jackpotting ploutus malware fbi $20m cash dispense physical access"><div class="ctop"><div class="cmeta"><span class="cchip cc-la">⚖️ Law</span><span class="rbadge rb-hi">HIGH</span></div><div class="ctitle">ATM Jackpotting: Malware Commands Machines to Empty Their Cash Drawers</div><div class="cregions"><span class="reg r-us">🌎 US</span></div><div class="csum">Criminals opened ATMs, installed Ploutus malware, and commanded machines to dispense all cash. FBI confirmed $20M+ in losses from 700+ compromised US ATMs in 2025. Attacks expected to continue targeting smaller operators.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">ATM — Physical Hardware Access Required</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">ATM Jackpotting via Hardware Malware Installation (Ploutus)</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Direct cash losses, ATM fleet security costs</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Low direct risk — no card data involved</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">ATM</span><span class="ctag">Ploutus</span><span class="ctag">$20M US Losses</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">What to Do</div><ul class="alist"><li>Secure ATM cabinets with tamper-evident seals and CCTV monitoring</li><li>Apply software security patches to ATM operating systems regularly</li><li>Smaller independent ATM operators: urgent security review needed</li></ul></div></div></div>
+<div class="card ca-ga" data-t="gauge" data-c="law" data-r="global africa" data-order="11" data-risk="2" data-s="leakbase dark web stolen data marketplace 651 arrests operation red card romance scam africa"><div class="ctop"><div class="cmeta"><span class="cchip cc-la">⚖️ Law</span><span class="rbadge rb-hi">HIGH</span></div><div class="ctitle">World's Largest Stolen Data Marketplace Seized + 651 Arrested Globally</div><div class="cregions"><span class="reg r-global">🌐 Global</span><span class="reg r-africa">🌍 Africa</span></div><div class="csum">The DOJ seized LeakBase — 142,000 members, stolen card data traded at scale. Operation Red Card 2.0 yielded 651 arrests and $4.3M recovered across 16 African countries.</div><div class="clabels"><div class="cl cl-med"><span class="ck">Medium</span><span class="cv">Dark Web Marketplace / Social Media (Romance)</span></div><div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">Stolen Credential Trading + Romance Fraud + Mobile Money Scam</span></div><div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">Expected fraud spike as displaced criminals migrate to new platforms</span></div><div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">Credential exposure, financial loss — elderly particularly targeted</span></div></div><div class="cdate">Mar 2026</div></div><div class="ctags"><span class="ctag">LeakBase</span><span class="ctag">Dark Web</span><span class="ctag">651 Arrests</span><span class="ctag">Africa</span></div><button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button><div class="cdet"><div class="db"><div class="dlbl">What to Do</div><ul class="alist"><li>Expect a fraud spike as displaced criminals test credentials on new platforms</li><li>Educate elderly cardholders on romance scam warning signs</li></ul></div></div></div>
+</div><!-- /gg -->
+
+<!-- ████ DYNAMICALLY ADDED REPORTS ████ -->
+<div class="sh" id="dynSection" style="display:none">
+  <div class="sl-dy"></div><h2>Added Reports</h2>
+  <span class="sp-dy" id="dynLabel">Loaded from Netlify</span>
+  <span class="sh-cnt" id="dc">0 items</span>
+</div>
+<div class="grid" id="dg"></div>
+
+<!-- ████ UPLOAD NEW REPORT ████ -->
+<div class="sh" style="margin-top:36px;">
+  <div class="sl-dy"></div><h2>Add New Visa PERC Report</h2>
+  <span class="sp-dy">PDF Upload → AI Processing</span>
+</div>
+<div class="upload-section">
+  <div class="upload-header">
+    <h3>Upload a Visa PERC PDF</h3>
+    <p>Drop any Visa Security Alert or Monthly Gauge PDF here. <strong>Claude will read it, extract all threat items, and add them as new cards automatically.</strong> Cards persist permanently — visible to everyone who visits this page.</p>
+  </div>
+  <div class="upload-body">
+    <div class="drop-zone" id="dz" onclick="document.getElementById('pdfInput').click()" ondragover="dzOver(event)" ondragleave="dzLeave()" ondrop="dzDrop(event)">
+      <div class="dz-icon">📄</div>
+      <div class="dz-main">Tap to select PDF — or drag &amp; drop here</div>
+      <div class="dz-sub">Visa PERC Security Alerts and Monthly Gauge reports supported</div>
+      <div class="dz-file" id="dzFile"></div>
+    </div>
+    <input type="file" id="pdfInput" accept="application/pdf" onchange="fileChosen(this)">
+    <div class="upload-status" id="upStatus">
+      <div class="us-bar"><div class="us-bar-fill" id="upBar"></div></div>
+      <div class="us-msg" id="upMsg"></div>
+    </div>
+    <button class="upload-btn" id="upBtn" onclick="startUpload()" disabled>⚡ Process with AI</button>
+  </div>
+</div>
+
+<!-- GLOSSARY -->
+<div class="gw" id="gw">
+  <button class="ghdr" onclick="gToggle()">
+    <div class="ghl"><span>📖</span><span class="gttl">Payment Security Glossary</span><span class="gcnt" id="gcnt">42 terms</span></div>
+    <span class="gh-hint">New? Start here.</span><span class="garr">▼</span>
+  </button>
+  <div class="gbody" id="gb">
+    <div class="gc">
+      <input class="gs" type="text" placeholder="Search: e.g. phishing, OTP, settlement…" oninput="gSearch(this.value)">
+      <div class="az" id="azr"></div>
+    </div>
+    <div class="ggrid" id="ggr"></div>
+  </div>
+</div>
+</main>
+
+<footer>
+  <p>Sources: Visa PERC Pr3ssure Gauge (March 2026) · PERC-26-07 · PERC-26-08 · PERC-26-09 · PERC-26-10 · PERC-26-11 · PERC-26-12 · PERC-26-13</p>
+  <p><em>Visa Confidential — for Visa Issuers, Acquirers, Processors and Employees only. Redistribution without express permission strictly prohibited.</em></p>
+</footer>
+
+<script>
+'use strict';
+/* ── ZOOM ── */
+const zS=[.82,.88,.94,1,1.07,1.15,1.24];let zI=3;
+function zoom(d){zI=Math.max(0,Math.min(zS.length-1,zI+d));document.documentElement.style.setProperty('--zoom',zS[zI]);document.getElementById('zv').textContent=Math.round(zS[zI]*100)+'%';}
+/* ── THEME ── */
+function toggleTheme(){const h=document.documentElement,dark=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',dark?'light':'dark');document.getElementById('themeBtn').textContent=dark?'☀️ Light':'🌙 Dark';}
+/* ── COMPACT ── */
+let compact=false;
+function toggleCompact(){compact=!compact;document.body.classList.toggle('cmode',compact);const b=document.getElementById('compactBtn');b.textContent=compact?'⊞ Card view':'≡ Compact view';b.classList.toggle('on',compact);}
+/* ── TOOLTIP ── */
+const ttEl=document.getElementById('tt'),ttN=document.getElementById('tt-name'),ttB=document.getElementById('tt-body');
+function showTT(t,x,y){ttN.textContent=t.dataset.term||'';ttB.textContent=t.dataset.def||'';ttEl.classList.add('on');posTT(x,y);}
+function posTT(x,y){const w=230,vw=window.innerWidth;let l=x-w/2;if(l<8)l=8;if(l+w>vw-8)l=vw-w-8;ttEl.style.left=l+'px';const ab=y-ttEl.offsetHeight-12;ttEl.style.top=(ab<8?y+20:ab)+'px';}
+function hideTT(){ttEl.classList.remove('on');}
+document.addEventListener('mouseover',e=>{const t=e.target.closest('.term');t?showTT(t,e.clientX,e.clientY):hideTT();});
+document.addEventListener('mousemove',e=>{if(e.target.closest('.term'))posTT(e.clientX,e.clientY);});
+document.addEventListener('click',e=>{
+  const t=e.target.closest('.term');
+  if(t){e.stopPropagation();const r=t.getBoundingClientRect();
+    if(ttEl.classList.contains('on')&&ttN.textContent===(t.dataset.term||''))hideTT();
+    else showTT(t,r.left+r.width/2,r.top);return;}
+  hideTT();
+},true);
+/* ── CARD EXPAND ── */
+function xcard(btn){
+  const card=btn.closest('.card'),was=card.classList.contains('on');
+  document.querySelectorAll('.card.on').forEach(c=>{c.classList.remove('on');c.querySelector('.xbtn span:first-child').textContent='Show Details';});
+  if(!was){card.classList.add('on');btn.querySelector('span:first-child').textContent='Hide Details';setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'nearest'}),60);}
+}
+/* ── FILTER ── */
+const fS={type:'all',cat:'',region:''};
+function filt(dim,val,btn){
+  if(fS[dim]===val&&dim!=='type'){fS[dim]='';document.querySelectorAll(`.fp.fp-${val}`).forEach(b=>b.classList.remove('on'));}
+  else{
+    if(dim==='type')document.querySelectorAll('.fp.fp-al,.fp.fp-ga,.fp.fp-dynamic').forEach(b=>b.classList.remove('on'));
+    else if(dim==='cat')document.querySelectorAll('.fp.fp-sc,.fp.fp-cy,.fp.fp-ph,.fp.fp-la').forEach(b=>b.classList.remove('on'));
+    else document.querySelectorAll('.fp.fp-global,.fp.fp-apac,.fp.fp-eu,.fp.fp-us,.fp.fp-africa').forEach(b=>b.classList.remove('on'));
+    if(dim==='type'&&val==='all')document.querySelector('.fp.on')?.classList.remove('on');
+    fS[dim]=val;btn.classList.add('on');
+  }
+  applyF();
+}
+function applyF(){
+  const q=document.getElementById('si').value.toLowerCase().trim();
+  let ta=0,tg=0,td=0;
+  document.querySelectorAll('.card').forEach(card=>{
+    const t=card.dataset.t,c=card.dataset.c,r=card.dataset.r||'';
+    const tOk=fS.type==='all'||(fS.type==='dynamic'&&t==='dynamic')||t===fS.type;
+    const cOk=!fS.cat||c===fS.cat;
+    const rOk=!fS.region||r.includes(fS.region);
+    const s=(card.dataset.s||'')+(card.querySelector('.ctitle')?.textContent.toLowerCase()||'');
+    const qOk=!q||s.includes(q)||r.includes(q);
+    const show=tOk&&cOk&&rOk&&qOk;
+    card.classList.toggle('hidden',!show);
+    if(show){if(t==='alert')ta++;if(t==='gauge')tg++;if(t==='dynamic')td++;}
+  });
+  document.getElementById('ac').textContent=ta+' of '+document.querySelectorAll('#ag .card').length;
+  document.getElementById('gc').textContent=tg+' of '+document.querySelectorAll('#gg .card').length;
+  if(document.getElementById('dc'))document.getElementById('dc').textContent=td+' items';
+}
+/* ── SEARCH ── */
+function doSearch(v){document.getElementById('sc').style.display=v?'block':'none';applyF();}
+function clearSearch(){document.getElementById('si').value='';document.getElementById('sc').style.display='none';applyF();}
+/* ── SORT ── */
+const sortSt={ag:'date',gg:'date',dg:'date'};
+function sortCards(gid,by){
+  const grid=document.getElementById(gid);
+  const cards=[...grid.querySelectorAll('.card')];
+  const btn=document.getElementById(gid==='ag'?'sortAlerts':'sortGauge');
+  if(sortSt[gid]===by){sortSt[gid]='date';if(btn)btn.textContent='Sort by Risk ↓';cards.sort((a,b)=>+a.dataset.order-+b.dataset.order);}
+  else{sortSt[gid]=by;if(btn)btn.textContent='Sort by Date ↓';cards.sort((a,b)=>+a.dataset.risk-+b.dataset.risk);}
+  cards.forEach(c=>grid.appendChild(c));
+}
+/* ── GLOSSARY ── */
+function gToggle(){const w=document.getElementById('gw'),b=document.getElementById('gb'),open=w.classList.toggle('on');b.style.display=open?'block':'none';}
+document.getElementById('gb').style.display='none';
+const GT=[
+  {w:'3DS / 3D Secure',def:'An extra security step banks add to online payments — a one-time code by SMS or app. Bypassed when the victim believes a scam and approves it willingly.'},
+  {w:'AI-Enabled Fraud',def:'Scam operations using AI to write convincing personalised messages at scale, generate fake photos, and translate into any language.'},
+  {w:'API Key',abbr:'Application Programming Interface Key',def:'A secret code letting one software system authenticate itself to another. If stolen, an attacker can fully impersonate that system.'},
+  {w:'ATM Jackpotting',def:'Installing malware on an ATM to make it dispense cash on command — no card, account, or bank approval needed. Also called black-box attacks.'},
+  {w:'CAMS',abbr:'Compromised Account Management System',def:'Visa\'s system distributing alerts about cards compromised in merchant breaches, so issuers can re-issue or flag them before fraud occurs.'},
+  {w:'CNP Transaction',abbr:'Card-Not-Present',def:'Any payment without physically using the card — online purchases. Higher fraud risk as no PIN or tap is required.'},
+  {w:'CVV2',def:'The 3-digit code on the back of your card. Proves physical possession during purchases.'},
+  {w:'Digital Wallet',def:'An app (Apple Pay, Google Pay, etc.) storing card details. Fraudsters exploit them because top-ups move funds quickly and are hard to reverse.'},
+  {w:'EMV Chip',def:'The gold/silver square on your card. Generates a unique transaction code per use — but can be physically removed and used in some terminals.'},
+  {w:'Encryption',def:'Scrambling data so only someone with the correct key can read it. Encrypted passwords look like random characters — useless without the key.'},
+  {w:'File Integrity Monitoring (FIM)',def:'Software alerting you the moment any unauthorised change is made to critical files — like a payment script being modified. Catches skimmer attacks early.'},
+  {w:'Force Post',def:'Bypassing payment approval and pushing a transaction directly into final settlement. The bank never gets to review or decline it first.'},
+  {w:'Hacktivist',def:'A hacker motivated by political or ideological goals rather than money.'},
+  {w:'iframe',def:'A small embedded window within a webpage that loads content from another source. Replacing its URL lets attackers substitute a fake payment form silently.'},
+  {w:'Initial Access Broker',def:'A criminal who steals login credentials and sells that access to other criminals — who carry out the actual fraud later.'},
+  {w:'IOC',abbr:'Indicator of Compromise',def:'Technical evidence of a hack — suspicious file names, domains, or traffic patterns. Sharing IOCs helps others block the same attack.'},
+  {w:'JavaScript Skimmer',def:'Malicious JavaScript hidden on a checkout page that copies card details as customers type them and sends them to criminals. Also called a Magecart attack.'},
+  {w:'KYB',abbr:'Know Your Business',def:'Verifying a merchant\'s legitimacy before allowing card payments. Weak KYB lets fraudulent merchants into the ecosystem.'},
+  {w:'KYC',abbr:'Know Your Customer',def:'Verifying a person\'s identity before providing financial services. Prevents fraud, money laundering, and identity theft.'},
+  {w:'LeakBase',def:'A now-seized criminal marketplace with 142,000+ members where stolen card numbers and bank logins were bought and sold at scale.'},
+  {w:'MaaS',abbr:'Malware-as-a-Service',def:'Ready-made malware rented to criminals with support included — like a software subscription, but for fraud.'},
+  {w:'Malware',def:'Malicious software — any program designed to damage, steal from, or control a device without the owner\'s knowledge.'},
+  {w:'MCC',abbr:'Merchant Category Code',def:'A 4-digit code classifying a merchant\'s business type. 7273 = dating services, 5968 = subscriptions — both used by scam operators.'},
+  {w:'MDM Abuse',abbr:'Mobile Device Management',def:'Using a company\'s own remote device management software against it — to wipe, lock, or control all employee devices simultaneously.'},
+  {w:'MFA / 2FA',abbr:'Multi-Factor Authentication',def:'Requiring two forms of proof to log in. Even with a stolen password, criminals can\'t access the account without the second factor.'},
+  {w:'Money Mule',def:'A person used to receive and forward stolen money, making the trail harder to follow. Mules are often victims themselves.'},
+  {w:'OTP Interception',abbr:'One-Time Passcode',def:'Capturing the temporary bank security code sent by SMS — allowing criminals to complete fraudulent transactions even with MFA active.'},
+  {w:'Overlay Attack',def:'Placing a fake screen over your real banking app. When you type your login, it goes to criminals — visually indistinguishable.'},
+  {w:'PAN',abbr:'Primary Account Number',def:'The 16-digit card number. PANs not yet issued to any cardholder should automatically reject all transaction attempts.'},
+  {w:'Password Manager',def:'An app that stores and autofills passwords. Won\'t fill credentials on a fake domain — effective against phishing.'},
+  {w:'PCI DSS',abbr:'Payment Card Industry Data Security Standard',def:'Rules all card-processing businesses must follow to protect cardholder data.'},
+  {w:'Pig Butchering Scam',def:'Long-con investment fraud: criminals build fake trust over weeks, introduce a fake platform with fabricated profits, then vanish with everything.'},
+  {w:'Ploutus Malware',def:'Malware designed to control ATM hardware and command the cash dispenser to release all notes. Requires physical access to install.'},
+  {w:'POS Terminal',abbr:'Point-of-Sale',def:'The card machine at checkout where you tap, insert, or swipe your card.'},
+  {w:'QR Code',def:'A square scannable barcode that opens a website when your phone reads it. Can be modified to redirect to phishing pages.'},
+  {w:'RaaS',abbr:'Ransomware-as-a-Service',def:'A criminal business model where ransomware tools are rented to other criminals who carry out the attacks.'},
+  {w:'Settlement',def:'The final step where money actually moves between banks. Once settled, reversing a transaction is much harder.'},
+  {w:'SQL Injection',def:'A hacking technique where crafted text entered into a website form tricks the database into revealing its contents or granting broader access.'},
+  {w:'Structuring',def:'Deliberately splitting large cash sums into smaller deposits to stay below reporting thresholds. A form of money laundering.'},
+  {w:'VPN Port Misconfiguration',def:'A VPN creates encrypted connections to private networks. If ports are accidentally left open during maintenance, attackers gain unauthorised backend access.'},
+  {w:'WAF',abbr:'Web Application Firewall',def:'A security filter in front of a website that blocks common attack patterns — like SQL injection — before they reach the database.'},
+  {w:'Web Shell',def:'A malicious script uploaded to a web server giving the attacker remote control via a browser — they can run commands, steal files, and install more tools.'},
+];
+function buildGloss(){
+  const gr=document.getElementById('ggr'),az=document.getElementById('azr');
+  document.getElementById('gcnt').textContent=GT.length+' terms';
+  const letters=[...new Set(GT.map(t=>t.w[0].toUpperCase()))].sort();
+  const ab=Object.assign(document.createElement('button'),{className:'azb on',textContent:'All'});
+  ab.dataset.l='all';ab.onclick=()=>azF('all',ab);az.appendChild(ab);
+  letters.forEach(l=>{const b=Object.assign(document.createElement('button'),{className:'azb',textContent:l});b.dataset.l=l;b.onclick=()=>azF(l,b);az.appendChild(b);});
+  [...GT].sort((a,b)=>a.w.localeCompare(b.w)).forEach(t=>{
+    const d=document.createElement('div');d.className='gt';d.dataset.l=t.w[0].toUpperCase();d.dataset.s=(t.w+' '+(t.abbr||'')+' '+t.def).toLowerCase();
+    d.innerHTML=`<div class="gtw">${t.w}</div>`+(t.abbr?`<span class="gta">${t.abbr}</span>`:'')+`<div class="gtd">${t.def}</div>`;
+    gr.appendChild(d);
+  });
+}
+function azF(l,btn){document.querySelectorAll('.azb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.querySelectorAll('.gt').forEach(t=>t.classList.toggle('gh',l!=='all'&&t.dataset.l!==l));noRes();}
+function gSearch(q){const lq=q.toLowerCase().trim();document.querySelectorAll('.gt').forEach(t=>t.classList.toggle('gh',lq!==''&&!t.dataset.s.includes(lq)));document.querySelectorAll('.azb').forEach(b=>b.classList.remove('on'));document.querySelector('.azb[data-l="all"]').classList.add('on');noRes();}
+function noRes(){const gr=document.getElementById('ggr');let e=gr.querySelector('.no-res');const v=[...gr.querySelectorAll('.gt')].filter(t=>!t.classList.contains('gh'));if(!v.length){if(!e){const d=document.createElement('div');d.className='no-res';d.textContent='No matching terms.';gr.appendChild(d);}}else if(e)e.remove();}
+buildGloss();
+/* ── DYNAMIC CARD RENDERER ── */
+const riskMap={critical:'rb-cr',high:'rb-hi',medium:'rb-md',low:'rb-lo'};
+const riskLbl={critical:'CRITICAL',high:'HIGH',medium:'MEDIUM',low:'LOW'};
+const catMap ={scam:'cc-sc',cyber:'cc-cy',physical:'cc-ph',law:'cc-la',significant:'cc-sig'};
+const catLbl ={scam:'🎭 Scam',cyber:'🛡 Cyber TTP',physical:'💳 Physical',law:'⚖️ Law',significant:'⚡ Significant'};
+const regLbl ={global:'🌐 Global',apac:'🌏 APAC',eu:'🌍 EU',us:'🌎 US',africa:'🌍 Africa'};
+function renderCard(card){
+  const regions=(card.regions||['global']).filter(Boolean);
+  const regionHtml=regions.map(r=>`<span class="reg r-${r}">${regLbl[r]||r}</span>`).join('');
+  const tagHtml=(card.tags||[]).map(t=>`<span class="ctag">${t}</span>`).join('');
+  let flowHtml='';
+  if(card.hasFlow&&card.flow?.length){
+    flowHtml='<div class="db"><div class="dlbl">Attack Flow</div><div class="flow">';
+    card.flow.forEach(s=>{
+      flowHtml+=`<div class="fs ${s.phase||'bl'}"><div class="fs-ic">🔹</div><div class="fs-body"><div class="fs-lbl">${s.label}</div><div class="fs-txt">${s.text}</div></div></div>`;
+    });
+    flowHtml+='</div></div>';
+  }
+  let iocHtml='';
+  if(card.iocs?.length){
+    iocHtml='<div class="db"><div class="dlbl">Indicators of Compromise</div><div class="ioc">';
+    card.iocs.forEach(ioc=>{iocHtml+=`<div class="ioc-l">${ioc.label}</div><div class="${ioc.warn?'ioc-w':'ioc-v'}">${ioc.value}</div>`;});
+    iocHtml+='</div></div>';
+  }
+  let actHtml='';
+  if(card.actions?.length){
+    actHtml='<div class="db"><div class="dlbl">What to Do</div><ul class="alist">';
+    card.actions.forEach(a=>{actHtml+=`<li>${a}</li>`;});
+    actHtml+='</ul></div>';
+  }
+  const el=document.createElement('div');
+  el.className='card ca-dy';
+  el.dataset.t='dynamic';
+  el.dataset.c=card.cat||'significant';
+  el.dataset.r=regions.join(' ');
+  el.dataset.order=card.order||99;
+  el.dataset.risk={critical:1,high:2,medium:3,low:4}[card.risk]||4;
+  el.dataset.s=[card.title,card.summary,...(card.tags||[]),card.medium,card.attack_type].join(' ').toLowerCase();
+  el.innerHTML=`
+    <div class="ctop">
+      <div class="cmeta">
+        <span class="cchip ${catMap[card.cat]||'cc-dy'}">${catLbl[card.cat]||card.cat||'Report'}</span>
+        <span class="rbadge ${riskMap[card.risk]||'rb-md'}">${riskLbl[card.risk]||'MEDIUM'}</span>
+      </div>
+      <div class="ctitle">${card.title}</div>
+      <div class="cregions">${regionHtml}</div>
+      <div class="csum">${card.summary}</div>
+      <div class="clabels">
+        <div class="cl cl-med"><span class="ck">Medium</span><span class="cv">${card.medium||'—'}</span></div>
+        <div class="cl cl-atk"><span class="ck">Attack</span><span class="cv">${card.attack_type||'—'}</span></div>
+        <div class="cl cl-iss"><span class="ck">Issuer Risk</span><span class="cv">${card.issuer_risk||'—'}</span></div>
+        <div class="cl cl-cus"><span class="ck">Customer Risk</span><span class="cv">${card.customer_risk||'—'}</span></div>
+      </div>
+      <div class="cdate">${card.report_date||''} · ${card.report_id||''}</div>
+    </div>
+    <div class="ctags">${tagHtml}</div>
+    <button class="xbtn" onclick="xcard(this)"><span>Show Details</span><span class="xarrow">▾</span></button>
+    <div class="cdet">${flowHtml}${iocHtml}${actHtml||'<div class="dtxt">No additional detail extracted.</div>'}</div>`;
+  return el;
+}
+function addCards(cards){
+  const grid=document.getElementById('dg');
+  const sec=document.getElementById('dynSection');
+  cards.forEach(c=>grid.appendChild(renderCard(c)));
+  const cnt=grid.querySelectorAll('.card').length;
+  if(cnt>0){
+    sec.style.display='flex';
+    document.getElementById('dc').textContent=cnt+' items';
+    document.getElementById('dynLabel').textContent=`${cnt} item${cnt===1?'':'s'} — loaded from Netlify`;
+    document.getElementById('sTot').textContent=18+cnt;
+  }
+}
+/* ── LOAD DYNAMIC CARDS ON PAGE INIT ── */
+async function loadDynamicCards(){
+  try{
+    const res=await fetch('/api/get-cards');
+    if(!res.ok)return;
+    const {cards}=await res.json();
+    if(cards?.length)addCards(cards);
+  }catch(e){console.warn('Could not load dynamic cards:',e.message);}
+}
+/* ── FILE UPLOAD ── */
+let chosenFile=null,pollTimer=null;
+function fileChosen(inp){
+  if(inp.files?.[0]){
+    chosenFile=inp.files[0];
+    document.getElementById('dzFile').textContent='📎 '+chosenFile.name;
+    document.getElementById('dzFile').style.display='block';
+    document.getElementById('upBtn').disabled=false;
+    setStatus('');
+  }
+}
+function dzOver(e){e.preventDefault();document.getElementById('dz').classList.add('drag');}
+function dzLeave(){document.getElementById('dz').classList.remove('drag');}
+function dzDrop(e){
+  e.preventDefault();dzLeave();
+  const f=e.dataTransfer?.files?.[0];
+  if(f&&f.type==='application/pdf'){
+    chosenFile=f;
+    document.getElementById('dzFile').textContent='📎 '+f.name;
+    document.getElementById('dzFile').style.display='block';
+    document.getElementById('upBtn').disabled=false;
+  }else{setStatus('error','Please drop a PDF file.');}
+}
+function setStatus(type,msg,progress){
+  const wrap=document.getElementById('upStatus');
+  const msgEl=document.getElementById('upMsg');
+  const bar=document.getElementById('upBar');
+  wrap.style.display=msg?'block':'none';
+  bar.style.width=(progress||0)+'%';
+  msgEl.className='us-msg '+(type==='error'?'us-error':type==='success'?'us-success':'');
+  const icon=type==='processing'?'<span class="us-spin">⟳</span> ':type==='success'?'✓ ':type==='error'?'✕ ':'';
+  msgEl.innerHTML=msg?icon+msg:'';
+}
+async function startUpload(){
+  if(!chosenFile)return;
+  const btn=document.getElementById('upBtn');
+  btn.disabled=true;
+  setStatus('processing',`Reading "${chosenFile.name}"…`,10);
+  try{
+    // Convert PDF to base64 client-side
+    const base64=await new Promise((res,rej)=>{
+      const r=new FileReader();
+      r.onload=()=>res(r.result.split(',')[1]);
+      r.onerror=()=>rej(new Error('Could not read file'));
+      r.readAsDataURL(chosenFile);
+    });
+    setStatus('processing','Uploading to Netlify…',30);
+    const uploadRes=await fetch('/api/upload-pdf',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({base64,filename:chosenFile.name})
+    });
+    if(!uploadRes.ok){
+      const err=await uploadRes.json().catch(()=>({}));
+      throw new Error(err.error||'Upload failed ('+uploadRes.status+')');
+    }
+    const {jobId}=await uploadRes.json();
+    setStatus('processing','Queued — Claude is reading the PDF… (usually 15–30 seconds)',40);
+    // Start polling
+    pollJob(jobId);
+  }catch(e){
+    setStatus('error',e.message);
+    btn.disabled=false;
+  }
+}
+function pollJob(jobId,attempt=0){
+  if(attempt>60){setStatus('error','Processing timed out. Please try again.');document.getElementById('upBtn').disabled=false;return;}
+  const progress=Math.min(40+attempt*1.5,90);
+  setTimeout(async()=>{
+    try{
+      const res=await fetch(`/api/get-job?id=${encodeURIComponent(jobId)}`);
+      if(!res.ok){pollJob(jobId,attempt+1);return;}
+      const job=await res.json();
+      if(job.status==='queued'||job.status==='processing'){
+        const msgs={queued:'Queued — waiting to start…',processing:'Claude is extracting threat items…'};
+        setStatus('processing',msgs[job.status]||'Processing…',progress);
+        pollJob(jobId,attempt+1);
+      }else if(job.status==='done'){
+        setStatus('success',`✓ Added ${job.count} card${job.count===1?'':'s'} from ${job.report_id}`,100);
+        if(job.cards?.length){
+          addCards(job.cards);
+          setTimeout(()=>document.getElementById('dynSection').scrollIntoView({behavior:'smooth',block:'start'}),300);
+        }
+        chosenFile=null;
+        document.getElementById('pdfInput').value='';
+        document.getElementById('dzFile').style.display='none';
+        document.getElementById('upBtn').disabled=true;
+      }else if(job.status==='error'){
+        setStatus('error','Processing failed: '+(job.error||'Unknown error'));
+        document.getElementById('upBtn').disabled=false;
+      }else{
+        pollJob(jobId,attempt+1);
+      }
+    }catch(e){
+      pollJob(jobId,attempt+1);
+    }
+  },2000);
+}
+/* ── INIT ── */
+loadDynamicCards();
+</script>
+</body>
+</html>

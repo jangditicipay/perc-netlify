@@ -1,0 +1,18 @@
+# ─────────────────────────────────────────
+# Visa PERC Dashboard — Netlify Configuration
+# ─────────────────────────────────────────
+
+[build]
+  publish = "."           # index.html lives at root
+  command = "npm install" # install dependencies before deploy
+
+[functions]
+  node_bundler = "esbuild"          # bundles npm deps into each function
+  directory    = "netlify/functions"
+
+# /api/* → Netlify Functions  (cleaner than /.netlify/functions/*)
+[[redirects]]
+  from   = "/api/:func"
+  to     = "/.netlify/functions/:func"
+  status = 200
+  force  = true
