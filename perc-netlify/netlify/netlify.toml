@@ -8,7 +8,7 @@
 
 [functions]
   node_bundler = "esbuild"          # bundles npm deps into each function
-  directory    = "netlify/functions"
+  directory    = "functions"
 
 # /api/* → Netlify Functions  (cleaner than /.netlify/functions/*)
 [[redirects]]
