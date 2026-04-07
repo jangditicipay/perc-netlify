@@ -43,8 +43,6 @@ export default async (req, context) => {
   }
 };
 
-export const config = { path: "/api/get-cards" };
-
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
