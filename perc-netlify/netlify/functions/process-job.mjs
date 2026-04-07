@@ -19,7 +19,7 @@ Your job is to extract ALL distinct threat items from a Visa PERC Security Alert
 and return them in a structured JSON object.
 
 IMPORTANT RULES:
-- Use plain English throughout. No unexplained jargon.
+- Use plain English throughout, tailored for Card & Fraud Operations team members. No unexplained jargon.
 - When you must use a technical term, add a plain explanation in parentheses immediately after.
 - Keep summaries to 2–3 sentences max.
 - Return ONLY a valid raw JSON object — no markdown fences, no preamble, no commentary.
@@ -189,10 +189,4 @@ export default async (req, context) => {
       }
     }
   }
-};
-
-// background: true → Netlify returns 202 immediately and keeps the function running
-export const config = {
-  path:       "/api/process-job",
-  background: true
 };
