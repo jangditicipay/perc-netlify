@@ -57,8 +57,6 @@ export default async (req, context) => {
   }
 };
 
-export const config = { path: "/api/get-job" };
-
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
