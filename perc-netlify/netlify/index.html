@@ -12,7 +12,7 @@
   --bg:#07111F; --sur:#0C1A2E; --s2:#102238; --s3:#14293F;
   --br:#1C3452; --blt:#264969;
   --gold:#F5A623; --blue:#3B82F6; --purple:#8B5CF6; --teal:#06B6D4;
-  --red:#F43F5E; --orange:#F97316; --green:#22C55E; --yellow:#EAB308;
+  --red:#F43F5E; --orange:#F97316; --green:#22C55E; --yellow:#EAB308;ƒ
   --text:#ECF3FF; --tmid:#8AAFC8; --tmut:#506E85;
   --sh:0 2px 16px rgba(0,0,0,.3); --r:12px; --r-sm:8px;
 }
@@ -131,10 +131,10 @@ main{padding:clamp(16px,3vw,32px) clamp(16px,5vw,44px);max-width:1360px;margin:0
 .rb-lo{background:rgba(34,197,94,.11);color:#4ade80;border:1px solid rgba(34,197,94,.25);}
 .ctitle{font-size:clamp(.85rem,2vw,.97rem);font-weight:700;line-height:1.4;color:var(--text);margin-bottom:7px;}
 .csum{font-size:clamp(.78rem,1.7vw,.85rem);color:var(--tmid);line-height:1.78;margin-bottom:10px;}
-.clabels{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
-.cl{display:flex;align-items:baseline;gap:7px;font-size:.78rem;line-height:1.45;}
+.clabels{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin-bottom:10px;align-items:start;}
+.cl{display:contents;font-size:.78rem;}
 .ck{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:2px 6px;border-radius:3px;white-space:nowrap;flex-shrink:0;line-height:1.5;}
-.cv{color:var(--tmid);}
+.cv{color:var(--tmid);font-weight:400;flex:1;min-width:0;}
 .cl-med .ck{background:rgba(59,130,246,.13);color:#7db9ff;}
 .cl-atk .ck{background:rgba(139,92,246,.13);color:#b79eff;}
 .cl-iss .ck{background:rgba(249,115,22,.13);color:#ffaa6e;}
@@ -297,8 +297,8 @@ footer p{font-size:.67rem;color:var(--tmut);line-height:1.9;}
     <span style="font-size:.6rem;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:1.5px;flex-shrink:0;">Type</span>
     <button class="fp on"       onclick="filt('type','all',this)">All</button>
     <button class="fp fp-al"    onclick="filt('type','alert',this)">🚨 Alerts</button>
-    <button class="fp fp-ga"    onclick="filt('type','gauge',this)">📊 Gauge</button>
-    <button class="fp fp-dynamic" onclick="filt('type','dynamic',this)">✨ New</button>
+    <button class="fp fp-ga"    onclick="filt('type','gauge',this)">📈 Gauge</button>
+    <button class="fp fp-dynamic" onclick="filt('type','dynamic',this)">📦 New</button>
     <div class="fsep"></div>
     <span style="font-size:.6rem;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:1.5px;flex-shrink:0;">Cat</span>
     <button class="fp fp-sc"    onclick="filt('cat','scam',this)">Scam</button>
@@ -309,8 +309,8 @@ footer p{font-size:.67rem;color:var(--tmut);line-height:1.9;}
     <span style="font-size:.6rem;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:1.5px;flex-shrink:0;">Region</span>
     <button class="fp fp-global" onclick="filt('region','global',this)">🌐 Global</button>
     <button class="fp fp-apac"   onclick="filt('region','apac',this)">🌏 APAC</button>
-    <button class="fp fp-eu"     onclick="filt('region','eu',this)">🌍 EU</button>
-    <button class="fp fp-us"     onclick="filt('region','us',this)">🌎 US</button>
+    <button class="fp fp-eu"     onclick="filt('region','eu',this)">🇪🇺 EU</button>
+    <button class="fp fp-us"     onclick="filt('region','us',this)">🇺🇸 US</button>
     <button class="fp fp-africa" onclick="filt('region','africa',this)">🌍 Africa</button>
   </div>
 </div>
